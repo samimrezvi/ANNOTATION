@@ -245,6 +245,13 @@ export function ImageViewer({
       ctx.lineWidth   = 2;
       ctx.fill();
       ctx.stroke();
+      if (a.label) {
+        const minX = Math.min(...a.points.map((p) => p.x));
+        const minY = Math.min(...a.points.map((p) => p.y));
+        ctx.fillStyle = '#fff';
+        ctx.font      = '11px sans-serif';
+        ctx.fillText(a.label, minX + 4, minY + 14);
+      }
     }
 
     for (const a of bboxAnnotations) {
@@ -388,6 +395,22 @@ export function ImageViewer({
                     stroke={c}
                     strokeWidth={2 / stageScale}
                     fill={c + '28'}
+                    listening={false}
+                  />
+                );
+              })}
+              {polygonAnnotations.map((a) => {
+                if (!a.label) return null;
+                const minX = Math.min(...a.points.map((p) => p.x));
+                const minY = Math.min(...a.points.map((p) => p.y));
+                return (
+                  <Text
+                    key={`lbl-${a.id}`}
+                    x={minX + 4 / stageScale}
+                    y={minY + 4 / stageScale}
+                    text={a.label}
+                    fontSize={11 / stageScale}
+                    fill="#fff"
                     listening={false}
                   />
                 );
