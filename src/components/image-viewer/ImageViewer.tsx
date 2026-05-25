@@ -53,7 +53,22 @@ export function ImageViewer({
     ro.observe(el);
     setStageSize({ width: el.clientWidth || 800, height: el.clientHeight || 500 });
     return () => ro.disconnect();
-  }, []);
+  }, [imageUrl, imageSize]);
+
+  // Fit and center the image whenever a new one is loaded
+  useEffect(() => {
+    if (!imageSize) return;
+    const el = containerRef.current;
+    if (!el) return;
+    const containerW = el.clientWidth || 800;
+    const containerH = (el.clientHeight - 28) || 472; // subtract padding-bottom reserved for shortcuts bar
+    const scale = Math.min(containerW / imageSize.width, containerH / imageSize.height, 1);
+    setStageScale(scale);
+    setStagePos({
+      x: (containerW - imageSize.width * scale) / 2,
+      y: (containerH - imageSize.height * scale) / 2,
+    });
+  }, [imageSize]);
 
   const getStageCoords = useCallback(() => {
     const stage = stageRef.current;
