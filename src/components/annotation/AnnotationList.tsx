@@ -7,7 +7,7 @@ function formatSummary(a: Annotation): string {
   if (isInterval(a)) return `[${a.startTime.toFixed(2)} → ${a.endTime.toFixed(2)}]`;
   if (isBbox(a))     return `(${a.x.toFixed(0)}, ${a.y.toFixed(0)})  ${a.width.toFixed(0)}×${a.height.toFixed(0)}`;
   if (isPolygon(a))  return `${a.points.length} pts`;
-  return a.type;
+  return (a as { type: string }).type;
 }
 
 interface AnnotationListProps {

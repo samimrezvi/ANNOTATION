@@ -66,7 +66,7 @@ export function useAnnotations(_initial: Annotation[] = []) {
       setAnnotations([...annotations, withId]);
       try {
         const saved = await apiCreateAnnotation(withId);
-        setAnnotations((prev) => prev.map((a) => (a.id === id ? saved : a)));
+        setAnnotations(annotations.map((a) => (a.id === id ? saved : a)));
       } catch (e) {
         setAnnotations(snapshot); // rollback to snapshot
         setError((e as Error).message);
@@ -137,7 +137,7 @@ export function useAnnotations(_initial: Annotation[] = []) {
   }, [annotations]);
 
   const undoWithSync = useCallback(() => { undo(); }, [undo]);
-  const redoWithSync = useCallback(() => { redo(); });
+  const redoWithSync = useCallback(() => { redo(); }, [redo]);
 
   return {
     annotations,
