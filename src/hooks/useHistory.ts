@@ -10,9 +10,10 @@ export function useHistory(initial: Annotation[] | (() => Annotation[]) = []) {
   );
   const [future, setFuture] = useState<Annotation[][]>([]);
 
-  const push = useCallback((next: Annotation[]) => {
+  const push = useCallback((next: Annotation[] | ((prev: Annotation[]) => Annotation[])) => {
+    const nextValue = typeof next === 'function' ? next(present) : next;
     setPast((p) => [...p.slice(-MAX_HISTORY + 1), present]);
-    setPresent(next);
+    setPresent(nextValue);
     setFuture([]);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [present]);
