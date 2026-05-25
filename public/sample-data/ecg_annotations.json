@@ -1,0 +1,90 @@
+[
+  {
+    "id": "6321415b-386f-41c5-bf5a-e5a069a3ea82",
+    "type": "peak",
+    "time": 0.32,
+    "value": 1.1966,
+    "label": "R-peak",
+    "color": "#00d4ff",
+    "status": "approved",
+    "createdAt": 1700000000000,
+    "updatedAt": 1700000000000
+  },
+  {
+    "id": "b60ab46a-3562-4432-9083-1c400627d1fd",
+    "type": "peak",
+    "time": 1.32,
+    "value": 1.1967,
+    "label": "R-peak",
+    "color": "#00d4ff",
+    "status": "approved",
+    "createdAt": 1700000000000,
+    "updatedAt": 1700000000000
+  },
+  {
+    "id": "b7fcd506-fd54-4f5a-a73a-fe3edb36607d",
+    "type": "peak",
+    "time": 2.32,
+    "value": 1.1796,
+    "label": "R-peak",
+    "color": "#00d4ff",
+    "status": "approved",
+    "createdAt": 1700000000000,
+    "updatedAt": 1700000000000
+  },
+  {
+    "id": "d53e0fc7-bda6-4e96-8386-b0b997748fab",
+    "type": "peak",
+    "time": 3.32,
+    "value": 1.2158,
+    "label": "R-peak",
+    "color": "#00d4ff",
+    "status": "approved",
+    "createdAt": 1700000000000,
+    "updatedAt": 1700000000000
+  },
+  {
+    "id": "f562f4b5-9012-420f-9bac-a9f5a574ff9d",
+    "type": "peak",
+    "time": 4.32,
+    "value": 1.2282,
+    "label": "R-peak",
+    "color": "#00d4ff",
+    "status": "approved",
+    "createdAt": 1700000000000,
+    "updatedAt": 1700000000000
+  },
+  {
+    "id": "f60b259b-5328-4797-b08b-e18e39fef7e6",
+    "type": "interval",
+    "startTime": 0.28,
+    "endTime": 0.38,
+    "label": "QRS",
+    "color": "#ff6b6b",
+    "status": "approved",
+    "createdAt": 1700000001000,
+    "updatedAt": 1700000001000
+  },
+  {
+    "id": "fc1ef34a-bf00-4fa1-bc2a-a87b1f5bc101",
+    "type": "interval",
+    "startTime": 1.28,
+    "endTime": 1.38,
+    "label": "QRS",
+    "color": "#ff6b6b",
+    "status": "approved",
+    "createdAt": 1700000001000,
+    "updatedAt": 1700000001000
+  },
+  {
+    "id": "3db19c57-5506-44c9-974d-80da2e9659e7",
+    "type": "interval",
+    "startTime": 2.28,
+    "endTime": 2.38,
+    "label": "QRS",
+    "color": "#ff6b6b",
+    "status": "approved",
+    "createdAt": 1700000001000,
+    "updatedAt": 1700000001000
+  }
+]

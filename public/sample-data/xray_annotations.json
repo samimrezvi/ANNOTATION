@@ -1,0 +1,55 @@
+[
+  {
+    "id": "ed977b2a-463c-4aa9-b053-2f5246a9df71",
+    "type": "bbox",
+    "x": 120,
+    "y": 80,
+    "width": 180,
+    "height": 220,
+    "label": "right-lung",
+    "color": "#51cf66",
+    "status": "approved",
+    "createdAt": 1700000002000,
+    "updatedAt": 1700000002000
+  },
+  {
+    "id": "d2857433-c107-46d4-b5db-c11a38fbfdaf",
+    "type": "bbox",
+    "x": 320,
+    "y": 80,
+    "width": 170,
+    "height": 215,
+    "label": "left-lung",
+    "color": "#51cf66",
+    "status": "approved",
+    "createdAt": 1700000003000,
+    "updatedAt": 1700000003000
+  },
+  {
+    "id": "ef5b15af-c230-4318-81b3-4aa4ed25df8a",
+    "type": "polygon",
+    "points": [
+      {
+        "x": 230,
+        "y": 150
+      },
+      {
+        "x": 280,
+        "y": 145
+      },
+      {
+        "x": 290,
+        "y": 250
+      },
+      {
+        "x": 225,
+        "y": 255
+      }
+    ],
+    "label": "heart",
+    "color": "#ff6b6b",
+    "status": "pending",
+    "createdAt": 1700000004000,
+    "updatedAt": 1700000004000
+  }
+]

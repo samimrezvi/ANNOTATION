@@ -1,0 +1,13 @@
+{
+  "name": "bioannot-server",
+  "version": "1.0.0",
+  "description": "BioAnnot backend — zero npm dependencies, uses Node.js 22 built-ins",
+  "main": "src/index.js",
+  "type": "commonjs",
+  "scripts": {
+    "start": "node --experimental-sqlite src/index.js",
+    "dev":   "node --experimental-sqlite --watch src/index.js"
+  },
+  "engines": { "node": ">=22.0.0" },
+  "dependencies": {}
+}
