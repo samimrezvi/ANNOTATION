@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState, useEffect, useCallback, useRef } from 'react';
 import { useAnnotations } from '../hooks/useAnnotations';
 import { AnnotationToolbar } from '../components/annotation/AnnotationToolbar';
 import { AnnotationList } from '../components/annotation/AnnotationList';
@@ -33,6 +33,17 @@ export function AnnotationPage({ user, onLogout }: Props) {
 
   const signalAnnotations = annotationState.annotations.filter(isSignalAnnotation);
   const imageAnnotations  = annotationState.annotations.filter(isImageAnnotation);
+
+  // Once annotations finish loading, auto-select the mode that actually has data
+  // (so a reviewer with image annotations lands on the image view, not signal).
+  const autoModeDone = useRef(false);
+  useEffect(() => {
+    if (autoModeDone.current || annotationState.loading) return;
+    autoModeDone.current = true;
+    if (imageAnnotations.length > 0 && signalAnnotations.length === 0) {
+      setMode('image');
+    }
+  }, [annotationState.loading, imageAnnotations.length, signalAnnotations.length]);
 
   const showToast = useCallback((msg: string, type: 'default' | 'success' = 'default') => {
     const id = ++toastId;
@@ -222,6 +233,7 @@ export function AnnotationPage({ user, onLogout }: Props) {
               onAddAnnotation={annotationState.add}
               onRemoveAnnotation={annotationState.remove}
               onClearAnnotations={() => annotationState.setAnnotations(signalAnnotations)}
+              readOnly={!canAnnotate}
             />
           )}
         </div>

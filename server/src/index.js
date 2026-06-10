@@ -268,6 +268,28 @@ route('GET', '/api/annotations/audit', async (req, _params, res) => {
   return send(res, 200, { logs });
 });
 
+// ── Shared image routes ─────────────────────────────────────────────────────
+
+route('GET', '/api/image', async (req, _params, res) => {
+  authenticate(req);
+  const row = db.prepare("SELECT * FROM images WHERE id = 'current'").get();
+  return send(res, 200, {
+    image: row ? { dataUrl: row.data_url, name: row.name, updatedAt: row.updated_at } : null,
+  });
+});
+
+route('PUT', '/api/image', async (req, _params, res) => {
+  const me = authenticate(req);
+  requireRole(me, 'annotator', 'admin');
+  const { dataUrl, name } = await readBody(req);
+  if (!dataUrl || typeof dataUrl !== 'string' || !dataUrl.startsWith('data:image/'))
+    return send(res, 400, { error: 'Valid image dataUrl required' });
+  db.prepare("INSERT OR REPLACE INTO images (id,data_url,name,updated_by,updated_at) VALUES ('current',?,?,?,?)")
+    .run(dataUrl, name || null, me.id, Date.now());
+  audit(me.id, 'set_image', null, name || null);
+  return send(res, 200, { ok: true });
+});
+
 route('GET', '/api/health', async (_req, _params, res) => {
   return send(res, 200, { ok: true, time: new Date().toISOString() });
 });
@@ -277,7 +299,7 @@ const server = http.createServer(async (req, res) => {
   const origin = req.headers['origin'] || '';
   if (isAllowedOrigin(origin)) {
     res.setHeader('Access-Control-Allow-Origin', origin || '*');
-    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PATCH,DELETE,OPTIONS');
+    res.setHeader('Access-Control-Allow-Methods', 'GET,POST,PUT,PATCH,DELETE,OPTIONS');
     res.setHeader('Access-Control-Allow-Headers', 'Content-Type,Authorization');
     res.setHeader('Access-Control-Allow-Credentials', 'true');
   }

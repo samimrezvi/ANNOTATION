@@ -9,7 +9,7 @@ interface Props {
 
 const DEMO = [
   {
-    name: "Dr. Samim",
+    name: "Dr. Sharma",
     email: "sharma@medlab.in",
     password: "admin123",
     role: "admin",

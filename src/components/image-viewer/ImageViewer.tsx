@@ -2,6 +2,7 @@ import { useRef, useState, useCallback, useEffect } from 'react';
 import { Stage, Layer, Image as KonvaImage, Line, Rect, Circle, Text } from 'react-konva';
 import type Konva from 'konva';
 import type { ImageAnnotation, BboxAnnotation, PolygonAnnotation } from '../../types/annotations';
+import { apiGetImage, apiSetImage } from '../../utils/api';
 import './ImageViewer.css';
 
 interface ImageViewerProps {
@@ -12,6 +13,7 @@ interface ImageViewerProps {
   onAddAnnotation: (a: Omit<ImageAnnotation, 'id'> & { id?: string }) => Promise<string>;
   onRemoveAnnotation: (id: string) => void;
   onClearAnnotations: () => void;
+  readOnly?: boolean;
 }
 
 export function ImageViewer({
@@ -21,6 +23,7 @@ export function ImageViewer({
   activeColor,
   onAddAnnotation,
   onClearAnnotations,
+  readOnly = false,
 }: ImageViewerProps) {
   const [imageUrl, setImageUrl] = useState<string | null>(null);
   const [imageElement, setImageElement] = useState<HTMLImageElement | null>(null);
@@ -43,6 +46,26 @@ export function ImageViewer({
   useEffect(() => {
     return () => { if (imageUrl) URL.revokeObjectURL(imageUrl); };
   }, [imageUrl]);
+
+  // On mount, load the shared workspace image from the server (if any) so that
+  // reviewers see the same picture the annotator worked on, with labels overlaid.
+  useEffect(() => {
+    let cancelled = false;
+    apiGetImage()
+      .then((stored) => {
+        if (cancelled || !stored) return;
+        const img = new window.Image();
+        img.onload = () => {
+          if (cancelled) return;
+          setImageUrl(stored.dataUrl);
+          setImageElement(img);
+          setImageSize({ width: img.width, height: img.height });
+        };
+        img.src = stored.dataUrl;
+      })
+      .catch(() => { /* no shared image yet — ignore */ });
+    return () => { cancelled = true; };
+  }, []);
 
   useEffect(() => {
     const el = containerRef.current;
@@ -97,12 +120,24 @@ export function ImageViewer({
       img.onload = () => {
         setImageElement(img);
         setImageSize({ width: img.width, height: img.height });
-        onClearAnnotations();
+        // Reviewers (read-only) load an image to review existing annotations,
+        // so keep the labels visible. Only annotators start from a clean slate.
+        if (!readOnly) onClearAnnotations();
       };
       img.src = url;
+
+      // Annotators persist the image to the server so reviewers can see it.
+      if (!readOnly) {
+        const reader = new FileReader();
+        reader.onload = () => {
+          apiSetImage(String(reader.result), file.name).catch(() => { /* ignore */ });
+        };
+        reader.readAsDataURL(file);
+      }
+
       e.target.value = '';
     },
-    [onClearAnnotations]
+    [onClearAnnotations, readOnly]
   );
 
   const handleWheel = useCallback((e: React.WheelEvent) => {

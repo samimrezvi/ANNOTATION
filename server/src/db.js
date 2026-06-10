@@ -43,6 +43,16 @@ db.exec(`
     detail    TEXT,
     ts        INTEGER NOT NULL DEFAULT (unixepoch() * 1000)
   );
+
+  -- Shared workspace image (single row, id='current') so reviewers can see
+  -- the same picture the annotator worked on, with annotations overlaid.
+  CREATE TABLE IF NOT EXISTS images (
+    id         TEXT PRIMARY KEY,
+    data_url   TEXT NOT NULL,
+    name       TEXT,
+    updated_by TEXT,
+    updated_at INTEGER NOT NULL DEFAULT (unixepoch() * 1000)
+  );
 `);
 
 const count = db.prepare('SELECT COUNT(*) AS c FROM users').get().c;

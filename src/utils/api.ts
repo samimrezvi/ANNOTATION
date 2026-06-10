@@ -129,3 +129,20 @@ export async function apiAuditLog(): Promise<unknown[]> {
   const data = await request<{ logs: unknown[] }>('GET', '/annotations/audit');
   return data.logs;
 }
+
+// ── Shared workspace image ──────────────────────────────────────────────────
+
+export interface StoredImage {
+  dataUrl: string;
+  name?: string;
+  updatedAt: number;
+}
+
+export async function apiGetImage(): Promise<StoredImage | null> {
+  const data = await request<{ image: StoredImage | null }>('GET', '/image');
+  return data.image;
+}
+
+export async function apiSetImage(dataUrl: string, name?: string): Promise<void> {
+  await request('PUT', '/image', { dataUrl, name });
+}
