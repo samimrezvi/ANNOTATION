@@ -275,10 +275,8 @@ export function ImageViewer({
       ctx.beginPath();
       a.points.forEach((pt, i) => (i === 0 ? ctx.moveTo(pt.x, pt.y) : ctx.lineTo(pt.x, pt.y)));
       ctx.closePath();
-      ctx.fillStyle   = c + '28';
       ctx.strokeStyle = c;
       ctx.lineWidth   = 2;
-      ctx.fill();
       ctx.stroke();
       if (a.label) {
         const minX = Math.min(...a.points.map((p) => p.x));
@@ -291,10 +289,8 @@ export function ImageViewer({
 
     for (const a of bboxAnnotations) {
       const c = a.color ?? '#00d4ff';
-      ctx.fillStyle   = c + '1a';
       ctx.strokeStyle = c;
       ctx.lineWidth   = 2;
-      ctx.fillRect(a.x, a.y, a.width, a.height);
       ctx.strokeRect(a.x, a.y, a.width, a.height);
       if (a.label) {
         ctx.fillStyle = '#fff';
@@ -402,7 +398,8 @@ export function ImageViewer({
                     x={a.x} y={a.y} width={a.width} height={a.height}
                     stroke={c}
                     strokeWidth={2 / stageScale}
-                    fill={c + '1a'}
+                    fill="transparent"
+                    fillOpacity={0}
                     listening={false}
                   />
                 );
@@ -429,7 +426,8 @@ export function ImageViewer({
                     closed
                     stroke={c}
                     strokeWidth={2 / stageScale}
-                    fill={c + '28'}
+                    fill="transparent"
+                    fillOpacity={0}
                     listening={false}
                   />
                 );
@@ -461,7 +459,8 @@ export function ImageViewer({
                   stroke={activeColor}
                   strokeWidth={2 / stageScale}
                   dash={[6 / stageScale, 3 / stageScale]}
-                  fill={activeColor + '14'}
+                  fill="transparent"
+                  fillOpacity={0}
                 />
               )}
 
@@ -472,7 +471,8 @@ export function ImageViewer({
                   stroke={activeColor}
                   strokeWidth={2 / stageScale}
                   dash={[6 / stageScale, 3 / stageScale]}
-                  fill={activeColor + '14'}
+                  fill="transparent"
+                  fillOpacity={0}
                 />
               )}
 
